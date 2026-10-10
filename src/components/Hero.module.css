@@ -50,45 +50,30 @@
   color: var(--orange);
 }
 
-/* Letter-rise role: every title shares one grid cell (so the line never resizes);
-   letters rise in on a stagger while the outgoing title's letters drift up and fade. */
+/* Slot roll: every title shares one clipped grid cell (so the line never resizes).
+   The current title slides up into view; the previous one slides out the top.
+   Waiting titles have no transition, so they jump back below out of sight. */
 .roleStack {
   display: inline-grid;
   justify-items: center;
+  overflow: hidden;
+  padding-block: 0.14em;
+  mask-image: linear-gradient(transparent, #000 10%, #000 90%, transparent);
 }
 .roleItem {
   grid-area: 1 / 1;
   white-space: nowrap;
-  visibility: hidden;
+  transform: translateY(125%);
 }
 .roleIn,
 .roleOut {
-  visibility: visible;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
 }
-.ch {
-  display: inline-block;
-  white-space: pre;
+.roleIn {
+  transform: none;
 }
-.roleIn .ch {
-  animation: letterIn 0.75s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: calc(300ms + var(--i) * 32ms);
-}
-.roleOut .ch {
-  animation: letterOut 0.45s cubic-bezier(0.5, 0, 0.75, 0) both;
-  animation-delay: calc(var(--i) * 18ms);
-}
-@keyframes letterIn {
-  from { opacity: 0; transform: translateY(0.42em); filter: blur(8px); }
-  to { opacity: 1; transform: none; filter: blur(0); }
-}
-@keyframes letterOut {
-  from { opacity: 1; transform: none; filter: blur(0); }
-  to { opacity: 0; transform: translateY(-0.3em); filter: blur(6px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .roleOut {
-    visibility: hidden;
-  }
+.roleOut {
+  transform: translateY(-125%);
 }
 
 /* Side notes */
