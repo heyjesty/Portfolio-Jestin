@@ -21,7 +21,7 @@ export default function About() {
             simple, accessible experiences.
           </p>
           <a className="text-link" href={RESUME} target="_blank" rel="noopener">
-            View my résumé <span>↗</span>
+            View my resume <span>↗</span>
           </a>
         </div>
         <figure className="about-photo">

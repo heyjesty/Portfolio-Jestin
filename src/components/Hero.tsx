@@ -1,93 +1,104 @@
-import { RESUME } from "@/data/projects";
+import Image from "next/image";
+import { projects } from "@/data/projects";
+import styles from "./Hero.module.css";
+
+const toolkit = [
+  "Figma",
+  "Adobe XD",
+  "Photoshop",
+  "Canva",
+  "HTML",
+  "CSS",
+  "JavaScript",
+  "React",
+  "Tailwind CSS",
+];
+
+const thumbs = projects.filter((p) => p.image).slice(1, 4);
 
 export default function Hero() {
   return (
-    <section className="hero" id="home">
-      <div className="orbits" aria-hidden="true">
-        <i />
-        <i />
-        <i />
+    <section className={styles.hero} id="home">
+      <h1 className={styles.title}>
+        <span className={styles.greeting}>Hi, I&apos;m Jestin</span>
+        <span className={styles.role}>
+          UI/UX Designer<span className={styles.dot}>.</span>
+        </span>
+      </h1>
+
+      <p className={styles.available}>
+        <i aria-hidden="true" />
+        Available for new opportunities
+      </p>
+      <p className={styles.blurb}>
+        Designing with purpose.
+        <br />
+        Creating experiences that click.
+      </p>
+
+      <div className={styles.portrait}>
+        <Image
+          src="/assets/jestin-portrait.jpg"
+          alt="Portrait of Jestin G Johnson"
+          fill
+          priority
+          sizes="(max-width: 700px) 110vw, 720px"
+        />
       </div>
-      <div className="hero-copy">
-        <p className="eyebrow">UI/UX &amp; Product Designer</p>
-        <h1>
-          Jestin G
-          <br />
-          Johnson<span>.</span>
-        </h1>
-        <p className="intro">
-          Designing interfaces.
-          <br />
-          Making experiences feel effortless.
-        </p>
-        <div className="hero-actions">
-          <a className="text-link" href="#work">
-            Explore my work
-          </a>
-          <a className="resume-button" href={RESUME} download="Jestin_JohnsonUIUX.pdf">
-            Download résumé ↓
-          </a>
+
+      <FloatingTools />
+
+      <div className={styles.bottomRow}>
+        <div className={styles.trust}>
+          <div className={styles.avatars}>
+            {thumbs.map((p) => (
+              <Image key={p.href} src={p.image!} alt="" width={44} height={44} />
+            ))}
+          </div>
+          <p>
+            <strong>{projects.length} projects</strong> across UI/UX design, branding and web
+            development.
+          </p>
         </div>
+        <a className={styles.cta} href="#contact">
+          <span aria-hidden="true">→</span> Get in Touch
+        </a>
       </div>
-      <DesignTools />
-      <div className="hero-bottom">
-        <span>Design. Build. Refine.</span>
-        <a href="#work">Scroll to explore ↓</a>
+
+      <div className={styles.marquee} aria-label="Everyday toolkit">
+        <div className={styles.track}>
+          {[0, 1].map((copy) => (
+            <ul key={copy} aria-hidden={copy === 1 || undefined}>
+              {toolkit.map((tool) => (
+                <li key={tool}>
+                  <span aria-hidden="true">✦</span>
+                  {tool}
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
-/** Decorative floating "Figma canvas" widgets around the hero copy. */
-function DesignTools() {
+/** Soft, depth-of-field tool icons drifting around the portrait. */
+function FloatingTools() {
   return (
-    <div className="design-tools" aria-hidden="true">
-      <div className="figma-tool">
-        <div className="figma-symbol">
+    <div className={styles.tools} aria-hidden="true">
+      <span className={`${styles.tool} ${styles.figma}`}>
+        <span className={styles.figmaMark}>
           <i />
           <i />
           <i />
           <i />
           <i />
-        </div>
-        <span>Made with Figma</span>
-      </div>
-      <div className="layers-tool">
-        <div className="tool-title">
-          Layers <span>+</span>
-        </div>
-        <div>⌘ &nbsp; Design system</div>
-        <div className="layer-selected">▧ &nbsp; Hero / Desktop</div>
-        <div>Ｔ &nbsp; Typography</div>
-        <div>◇ &nbsp; Components</div>
-      </div>
-      <div className="prototype-tool">
-        <span className="prototype-icon">▶</span>
-        <div>
-          <strong>Prototype</strong>
-          <small>Ideas → interactions</small>
-        </div>
-        <i />
-      </div>
-      <div className="cursor-tool">
-        <svg width="30" height="35" viewBox="0 0 30 35">
-          <path d="M3 2 L26 21 L15 22 L10 32 Z" fill="#7c5ce7" stroke="white" strokeWidth="2" />
-        </svg>
-        <span>Jestin</span>
-      </div>
-      <div className="swatches-tool">
-        <i />
-        <i />
-        <i />
-        <span>Colour &amp; character</span>
-      </div>
-      <div className="canvas-corners">
-        <i />
-        <i />
-        <i />
-        <i />
-        <span>Jestin / UI·UX Designer</span>
-      </div>
+        </span>
+      </span>
+      <span className={`${styles.tool} ${styles.behance}`}>Bē</span>
+      <span className={`${styles.tool} ${styles.ps}`}>Ps</span>
+      <span className={`${styles.tool} ${styles.code}`}>&lt;/&gt;</span>
     </div>
   );
 }
