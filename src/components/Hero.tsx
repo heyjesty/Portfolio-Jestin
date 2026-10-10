@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { projects } from "@/data/projects";
 import styles from "./Hero.module.css";
+import RotatingRole from "./RotatingRole";
 
 const toolkit = [
   "Figma",
@@ -21,9 +22,7 @@ export default function Hero() {
     <section className={styles.hero} id="home">
       <h1 className={styles.title}>
         <span className={styles.greeting}>Hi, I&apos;m Jestin</span>
-        <span className={styles.role}>
-          UI/UX Designer<span className={styles.dot}>.</span>
-        </span>
+        <RotatingRole />
       </h1>
 
       <p className={styles.available}>
