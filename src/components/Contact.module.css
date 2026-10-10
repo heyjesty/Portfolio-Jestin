@@ -1,0 +1,146 @@
+/* Bookends the hero: paper fading back down into the same sky. */
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 48px;
+  background: linear-gradient(
+    180deg,
+    var(--paper) 0%,
+    #eef6fc 22%,
+    var(--sky-200) 48%,
+    var(--sky-300) 74%,
+    var(--sky-deep) 100%
+  );
+}
+
+.title {
+  font-size: clamp(44px, 6.4vw, 96px);
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+}
+
+/* Comment pin + bubble */
+.comment {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 56px;
+  text-align: left;
+}
+.pin {
+  flex: none;
+  padding: 3px;
+  border-radius: 50% 50% 50% 4px;
+  background: #fff;
+  box-shadow: 0 8px 22px #10293d1f;
+}
+.pin img {
+  display: block;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 25%;
+}
+.bubble {
+  padding: 12px 16px;
+  border-radius: 14px 14px 14px 4px;
+  background: #fff;
+  box-shadow: 0 12px 30px #10293d14;
+}
+.bubble p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+}
+.bubble .author {
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.author span {
+  margin-left: 6px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-top: 44px;
+}
+.hello {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 17px 30px;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 10px 28px #10293d1f;
+  transition:
+    transform 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
+}
+.hello:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px #10293d2e;
+}
+.hello span {
+  transition: transform 0.4s var(--ease);
+}
+.hello:hover span {
+  transform: translateX(4px);
+}
+.email {
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 32px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: clamp(96px, 12vw, 160px);
+  padding-top: 24px;
+  border-top: 1px solid #10293d26;
+}
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  font-weight: 500;
+}
+.socials a span {
+  display: inline-block;
+  transition: transform 0.4s var(--ease);
+}
+.socials a:hover span {
+  transform: translate(3px, -3px);
+}
+.phone {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 600px) {
+  .bottom {
+    justify-content: center;
+  }
+  .socials {
+    justify-content: center;
+  }
+}

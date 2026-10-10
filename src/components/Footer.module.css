@@ -1,0 +1,54 @@
+.footer {
+  overflow: hidden;
+  padding: 8px var(--gutter) 0;
+  background: var(--sky-deep);
+  color: var(--text);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  font-weight: 500;
+}
+.links {
+  display: flex;
+  gap: 28px;
+  font-size: 13px;
+}
+.links a {
+  padding: 0;
+}
+
+/* Oversized white wordmark, cropped by the bottom edge like the hero's scale. */
+.wordmark {
+  display: block;
+  margin: clamp(28px, 4vw, 48px) 0 -0.1em;
+  color: #fff;
+  font-size: clamp(56px, 13.4vw, 200px);
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.07em;
+  white-space: nowrap;
+  transition: letter-spacing 0.8s var(--ease);
+}
+.wordmark:hover {
+  letter-spacing: -0.06em;
+}
+.wordmark span {
+  color: var(--orange);
+}
+
+@media (max-width: 600px) {
+  .row {
+    justify-content: center;
+    text-align: center;
+  }
+  .row > span {
+    order: 3;
+    width: 100%;
+  }
+}
