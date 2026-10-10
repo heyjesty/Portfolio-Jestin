@@ -1,8 +1,16 @@
 export type Category = "behance" | "github" | "vercel" | "artwork";
+export type Discipline =
+  | "frontend"
+  | "backend"
+  | "uiux"
+  | "graphic"
+  | "photography";
 
 export type Project = {
   title: string;
   category: Category;
+  /** Kind of work, for the section's tabs. */
+  discipline: Discipline;
   eyebrow: string;
   description: string;
   href: string;
@@ -23,12 +31,13 @@ export const RESUME = "/assets/Jestin_JohnsonUIUX.pdf";
 export const BEHANCE = "https://www.behance.net/jestinjohnson4";
 export const GITHUB = "https://github.com/heyjesty";
 
-export const filters: { id: Category | "all"; label: string }[] = [
-  { id: "all", label: "All work" },
-  { id: "behance", label: "Behance" },
-  { id: "github", label: "GitHub" },
-  { id: "vercel", label: "Live websites" },
-  { id: "artwork", label: "Artwork" },
+export const disciplines: { id: Discipline | "all"; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "frontend", label: "Frontend" },
+  { id: "backend", label: "Backend" },
+  { id: "uiux", label: "UI/UX" },
+  { id: "graphic", label: "Graphic Design" },
+  { id: "photography", label: "Photography" },
 ];
 
 const behance = (title: string) => ({ actionLabel: "View on Behance", alt: title, title });
@@ -38,6 +47,7 @@ export const projects: Project[] = [
   {
     title: "Honey Tilia",
     category: "vercel",
+    discipline: "frontend",
     eyebrow: "Brand Website · Vercel",
     status: "In progress · Currently working on",
     description:
@@ -52,6 +62,7 @@ export const projects: Project[] = [
   {
     ...behance("UIUX Design Sample Project"),
     category: "behance",
+    discipline: "uiux",
     eyebrow: "UI/UX Design · Behance",
     description: "Explore the full design presentation on Behance.",
     href: "https://www.behance.net/gallery/256337551/UIUX-Design-Sample-Project",
@@ -61,6 +72,7 @@ export const projects: Project[] = [
   {
     ...behance("GreenBite New Project"),
     category: "behance",
+    discipline: "uiux",
     eyebrow: "UI/UX Design · Behance",
     description: "Explore the full design presentation on Behance.",
     href: "https://www.behance.net/gallery/256404381/GreenBite-New-Project",
@@ -70,6 +82,7 @@ export const projects: Project[] = [
   {
     ...behance("Burger Perfection"),
     category: "behance",
+    discipline: "graphic",
     eyebrow: "Product Poster / Food Design",
     description:
       "A bold and vibrant food poster concept celebrating the art of the perfect burger — rich textures, dynamic composition, and mouth-watering visual storytelling.",
@@ -80,6 +93,7 @@ export const projects: Project[] = [
   {
     ...behance("Crocs Poster Release"),
     category: "behance",
+    discipline: "graphic",
     eyebrow: "Product Poster / Brand Design",
     description:
       "A modern, trend-forward product release poster for Crocs — blending streetwear aesthetics with clean brand typography and high-impact visual energy.",
@@ -90,6 +104,7 @@ export const projects: Project[] = [
   {
     title: "Ruchiyude Kalvara",
     category: "artwork",
+    discipline: "graphic",
     eyebrow: "Graphic Design / Menu Design",
     description:
       "A traditional restaurant menu design blending authentic typography, rich food photography, and warm earthy aesthetics for a warm, local dining identity.",
@@ -103,6 +118,7 @@ export const projects: Project[] = [
   {
     ...github("Wedding Portfolio"),
     category: "github",
+    discipline: "frontend",
     eyebrow: "Web UI / Portfolio",
     description:
       "A modern, responsive wedding portfolio website featuring elegant design, smooth animations, gallery sections, and a mobile-friendly user experience.",
@@ -113,6 +129,7 @@ export const projects: Project[] = [
   {
     ...github("Restaurant Website"),
     category: "github",
+    discipline: "frontend",
     eyebrow: "Web UI / Landing Page",
     description:
       "A modern and responsive restaurant website featuring an elegant UI, menu showcase, reservation forms, and mobile-friendly design.",
@@ -123,6 +140,7 @@ export const projects: Project[] = [
   {
     ...github("SupMart Grocery Store"),
     category: "github",
+    discipline: "frontend",
     eyebrow: "Web UI / E-Commerce",
     description:
       "A feature-rich e-commerce website specializing in the sale of fresh vegetables and fruits, providing a convenient platform to purchase and order.",
@@ -133,6 +151,7 @@ export const projects: Project[] = [
   {
     ...github("MovieGram Store"),
     category: "github",
+    discipline: "frontend",
     eyebrow: "Web UI / E-Commerce",
     description:
       "An e-commerce platform specializing in the sale of movies, providing customers with a search directory to browse, purchase, and stream their favorite films online.",
@@ -143,6 +162,7 @@ export const projects: Project[] = [
   {
     ...github("HolyCross Scheduler"),
     category: "github",
+    discipline: "frontend",
     eyebrow: "Web UI / Dashboard",
     description:
       "A web-based application designed to help hospitals streamline appointment scheduling for patients consulting with specific doctors.",
@@ -153,6 +173,7 @@ export const projects: Project[] = [
   {
     ...github("Veg-E-com Web App"),
     category: "github",
+    discipline: "frontend",
     eyebrow: "Web UI / E-Commerce",
     description:
       "An e-commerce system built for vegetable marketing, integrating structured product layouts, shopping features, and dynamic cart operations.",
@@ -163,6 +184,7 @@ export const projects: Project[] = [
   {
     ...github("AI Sales Chatbot"),
     category: "github",
+    discipline: "backend",
     eyebrow: "Python / AI / Chatbot",
     description:
       "An intuitive conversational agent offering tailored product recommendations, addressing inventory inquiries, and streamlining the shopping experience.",
@@ -173,6 +195,7 @@ export const projects: Project[] = [
   {
     ...github("Music-Hall System"),
     category: "github",
+    discipline: "backend",
     eyebrow: "Python / Audio / Playlists",
     description:
       "A Python-based back-end server orchestrating audio files, track streaming playlists, metadata extraction, and media directory indexing.",
@@ -183,6 +206,7 @@ export const projects: Project[] = [
   {
     ...github("Odoo Library Management"),
     category: "github",
+    discipline: "backend",
     eyebrow: "Python / Odoo ERP",
     description:
       "A management module for Odoo CRM/ERP platforms to track book inventories, issue logs, student memberships, and circulation tables.",
@@ -193,6 +217,7 @@ export const projects: Project[] = [
   {
     ...behance("Gucci Ace Concept Poster"),
     category: "behance",
+    discipline: "graphic",
     eyebrow: "Product Poster / Graphic Design",
     description:
       "Luxury product poster design concept focusing on shoe styling, modern visual space, and high-impact digital brand aesthetics.",
@@ -203,6 +228,7 @@ export const projects: Project[] = [
   {
     ...behance("iPhone 17 Pro Poster"),
     category: "behance",
+    discipline: "graphic",
     eyebrow: "Product Poster / Brand Design",
     description:
       "A high-end brand-focused poster rendering and design presentation for Apple's conceptual premium flagship device.",
@@ -213,6 +239,7 @@ export const projects: Project[] = [
   {
     ...behance("iQOO 12 Poster Concept"),
     category: "behance",
+    discipline: "graphic",
     eyebrow: "Product Poster / Brand Design",
     description:
       "Minimalist design study and print poster visual for the iQOO 12 smartphone, emphasizing sharp geometry and dynamic visual balance.",
@@ -223,6 +250,7 @@ export const projects: Project[] = [
   {
     ...behance("Event Management Portal"),
     category: "behance",
+    discipline: "uiux",
     eyebrow: "UI/UX Design / Web Interface",
     description:
       "UI/UX design direction for a comprehensive dashboard allowing users to organize, discover, and purchase tickets for social events.",
@@ -233,6 +261,7 @@ export const projects: Project[] = [
   {
     title: "Pineapple",
     category: "github",
+    discipline: "frontend",
     eyebrow: "Website Project · GitHub",
     description: "Explore the project source and implementation on GitHub.",
     href: "https://github.com/heyjesty/Pineapple",
