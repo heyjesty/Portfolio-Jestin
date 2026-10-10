@@ -1,0 +1,151 @@
+/* A faint sky band between paper sections, with soft top and bottom edges. */
+.experience {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: 56px 8%;
+  background: linear-gradient(
+    180deg,
+    var(--paper) 0,
+    var(--sky-50) 140px,
+    var(--sky-50) calc(100% - 140px),
+    var(--paper) 100%
+  );
+}
+
+/* The heading stays in view while the timeline scrolls past. */
+.intro {
+  position: sticky;
+  top: 110px;
+}
+.intro :global(.lead) {
+  max-width: 340px;
+  margin-top: 28px;
+}
+
+.timeline ol {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Rows hang off a single connector line, like a Figma prototype flow. */
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 8px 32px;
+  padding: 34px 0 34px 36px;
+  border-bottom: 1px solid var(--line);
+}
+.timeline ol .row:first-child {
+  padding-top: 0;
+}
+.row::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background: var(--sky-200);
+}
+.timeline ol .row:first-child::before {
+  top: 8px;
+}
+.node {
+  position: absolute;
+  left: 0;
+  top: 42px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1.5px solid var(--sky-deep);
+  transition:
+    background 0.4s var(--ease),
+    transform 0.4s var(--ease);
+}
+.timeline ol .row:first-child .node {
+  top: 8px;
+}
+.nodeLive {
+  background: var(--green);
+  border-color: var(--green);
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+.row:hover .node:not(.nodeLive) {
+  background: var(--sky-deep);
+  transform: scale(1.15);
+}
+
+.period {
+  padding-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.row h3 {
+  margin: 0;
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+  transition: transform 0.5s var(--ease);
+}
+.row:hover h3 {
+  transform: translateX(6px);
+}
+.role {
+  margin: 8px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--sky-deep);
+}
+.summary {
+  margin: 10px 0 0;
+  max-width: 480px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.education {
+  margin-top: 56px;
+}
+.eduLabel {
+  margin: 0 0 6px 36px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.education .row {
+  border-bottom: 0;
+}
+.education .row::before {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .experience {
+    grid-template-columns: 1fr;
+  }
+  .intro {
+    position: static;
+  }
+}
+@media (max-width: 600px) {
+  .row {
+    grid-template-columns: 1fr;
+    padding-left: 30px;
+  }
+  .period {
+    padding-top: 0;
+  }
+  .eduLabel {
+    margin-left: 30px;
+  }
+}

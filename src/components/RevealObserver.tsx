@@ -14,9 +14,11 @@ export default function RevealObserver() {
             observer.unobserve(entry.target);
           }
         }),
-      { threshold: 0.06 },
+      { threshold: 0.08, rootMargin: "0px 0px -6% 0px" },
     );
-    document.querySelectorAll(".reveal:not(.visible)").forEach((el) => observer.observe(el));
+    document
+      .querySelectorAll(".reveal:not(.visible)")
+      .forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 

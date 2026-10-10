@@ -1,41 +1,50 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import styles from "./Hero.module.css";
 
-const roles = ["UI/UX Designer", "Creative Technologist", "Vibe Coder"];
-const HOLD = 2600;
-const EXIT = 450;
+const HOLD = 3000;
 
-/** Cycles through roles, easing each word out and the next one in. */
-export default function RotatingRole() {
-  const [index, setIndex] = useState(0);
-  const [leaving, setLeaving] = useState(false);
+/**
+ * Cycles role titles stacked in one spot. Letters of the incoming title rise into
+ * place one after another while the outgoing title's letters drift up and fade.
+ */
+export default function RotatingRole({ roles }: { roles: string[] }) {
+  const [{ index, prev }, setTurn] = useState<{ index: number; prev: number | null }>({
+    index: 0,
+    prev: null,
+  });
 
   useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let swap: ReturnType<typeof setTimeout>;
     const cycle = setInterval(() => {
-      setLeaving(true);
-      swap = setTimeout(() => {
-        setIndex((i) => (i + 1) % roles.length);
-        setLeaving(false);
-      }, EXIT);
-    }, HOLD + EXIT);
-    return () => {
-      clearInterval(cycle);
-      clearTimeout(swap);
-    };
-  }, []);
+      setTurn(({ index }) => ({ index: (index + 1) % roles.length, prev: index }));
+    }, HOLD);
+    return () => clearInterval(cycle);
+  }, [roles.length]);
 
   return (
     <span className={styles.role}>
+      {/* Screen readers get every title once instead of a constantly changing heading. */}
       <span className="sr-only">{roles.join(", ")}</span>
-      <span aria-hidden="true">
-        <span key={index} className={`${styles.word} ${leaving ? styles.wordOut : ""}`}>
-          {roles[index]}
-        </span>
-        <span className={styles.dot}>.</span>
+      <span className={styles.roleStack} aria-hidden="true">
+        {roles.map((role, r) => (
+          <span
+            key={role}
+            className={`${styles.roleItem} ${
+              r === index ? styles.roleIn : r === prev ? styles.roleOut : ""
+            }`}
+          >
+            {[...role, "."].map((char, i) => (
+              <span
+                key={i}
+                className={`${styles.ch} ${char === "." && i === role.length ? styles.dot : ""}`}
+                style={{ "--i": i } as CSSProperties}
+              >
+                {char}
+              </span>
+            ))}
+          </span>
+        ))}
       </span>
     </span>
   );
