@@ -1,23 +1,25 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Hero.module.css";
 
-const HOLD = 3000;
+const HOLD = 2800;
 
 /**
- * Cycles role titles stacked in one spot. Letters of the incoming title rise into
- * place one after another while the outgoing title's letters drift up and fade.
+ * Rolls role titles through one clipped line: the current title slides up into
+ * view while the previous one slides out the top.
  */
 export default function RotatingRole({ roles }: { roles: string[] }) {
-  const [{ index, prev }, setTurn] = useState<{ index: number; prev: number | null }>({
-    index: 0,
-    prev: null,
-  });
+  const [index, setIndex] = useState(0);
+  const [prev, setPrev] = useState<number | null>(null);
 
   useEffect(() => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const cycle = setInterval(() => {
-      setTurn(({ index }) => ({ index: (index + 1) % roles.length, prev: index }));
+      setIndex((i) => {
+        setPrev(i);
+        return (i + 1) % roles.length;
+      });
     }, HOLD);
     return () => clearInterval(cycle);
   }, [roles.length]);
@@ -34,15 +36,8 @@ export default function RotatingRole({ roles }: { roles: string[] }) {
               r === index ? styles.roleIn : r === prev ? styles.roleOut : ""
             }`}
           >
-            {[...role, "."].map((char, i) => (
-              <span
-                key={i}
-                className={`${styles.ch} ${char === "." && i === role.length ? styles.dot : ""}`}
-                style={{ "--i": i } as CSSProperties}
-              >
-                {char}
-              </span>
-            ))}
+            {role}
+            <span className={styles.dot}>.</span>
           </span>
         ))}
       </span>

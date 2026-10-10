@@ -50,7 +50,7 @@ button:focus-visible {
   outline-offset: 6px;
 }
 
-/* ─── Header (part of the hero; unchanged) ─── */
+/* ─── Header: monogram + frosted pill nav ─── */
 header {
   position: absolute;
   z-index: 5;
@@ -59,66 +59,71 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 25px 4%;
+  padding: 28px 5%;
   color: var(--ink);
 }
 .brand {
-  font-size: 24px;
-  font-weight: 750;
-  letter-spacing: -1px;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  gap: 2px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  background: #ffffff8c;
+  border: 1px solid #17181412;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.3s var(--ease);
+}
+.brand:hover {
+  transform: rotate(-8deg);
 }
 .brand span {
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--orange);
   align-self: flex-end;
-  margin-bottom: 6px;
+  margin-bottom: 11px;
 }
 nav {
   display: flex;
-  gap: 48px;
-  font-size: 15px;
+  gap: 2px;
+  padding: 4px;
+  font-size: 14px;
+  border-radius: 50px;
+  background: #ffffff8c;
+  border: 1px solid #17181412;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 nav a {
-  padding: 8px 0;
-  position: relative;
+  padding: 8px 16px;
+  border-radius: 50px;
+  color: #171814b8;
+  transition: background 0.25s, color 0.25s;
 }
-nav a:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--orange);
-  transition: width 0.3s;
+nav a:hover {
+  background: #fff;
+  color: var(--ink);
 }
-nav a:hover:after {
-  width: 100%;
+nav a span {
+  font-size: 12px;
+  color: var(--orange);
 }
 @media (max-width: 600px) {
   header {
-    padding: 22px 6%;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-  }
-  .brand {
-    font-size: 20px;
-  }
-  header .brand {
-    width: 100%;
-    justify-content: center;
+    padding: 20px 6%;
   }
   nav {
-    justify-content: center;
-    gap: 28px;
-    font-size: 12px;
+    font-size: 13px;
+  }
+  nav a {
+    padding: 7px 12px;
   }
 }
 
