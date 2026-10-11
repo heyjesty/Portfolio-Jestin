@@ -1,153 +1,125 @@
 .head {
   max-width: 860px;
-  margin-bottom: clamp(64px, 7vw, 96px);
+  margin-bottom: clamp(40px, 5vw, 64px);
 }
 
-.flow {
-  position: relative;
-}
-.steps {
+/* Card deck: every card pins a little lower than the one before, so the
+   stacked edges stay visible like the tabs of a deck. */
+.stack {
+  --pin: clamp(72px, 9vh, 110px);
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 40px;
+  gap: clamp(20px, 3vw, 36px);
   margin: 0;
   padding: 0;
   list-style: none;
 }
+.card {
+  position: sticky;
+  top: calc(var(--pin) + var(--i) * 18px);
+}
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.5fr) minmax(0, 1.5fr);
+  align-items: center;
+  gap: 24px clamp(24px, 5vw, 80px);
+  min-height: clamp(260px, 28vw, 360px);
+  padding: clamp(28px, 4vw, 56px);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 -8px 30px #10293d0f;
+  transform-origin: top center;
+  /* --covered (0–1) is set from scroll as the next card slides over. */
+  transform: scale(calc(1 - var(--covered, 0) * 0.06));
+  filter: brightness(calc(1 - var(--covered, 0) * 0.06));
+}
+/* The deck deepens through the sky palette and ends on navy. */
+.card:nth-child(2) .inner {
+  background: var(--sky-50);
+}
+.card:nth-child(3) .inner {
+  background: var(--sky-100);
+}
+.card:nth-child(4) .inner {
+  border-color: transparent;
+  background: var(--text);
+  color: #fff;
+}
 
-/* Connector line with an arrowhead at the end */
-.connector {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  right: 0;
-  height: 1.5px;
-  background: var(--sky-deep);
-  transform-origin: left;
-}
-.connector::after {
-  content: "";
-  position: absolute;
-  right: -1px;
-  top: -4px;
-  border: 4.75px solid transparent;
-  border-left: 8px solid var(--sky-deep);
-  border-right: 0;
-}
-
-.step {
-  position: relative;
-  padding-top: 44px;
-}
-.node {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  background: var(--paper);
-  border: 2px solid var(--sky-deep);
-  transition:
-    background 0.4s var(--ease),
-    transform 0.4s var(--ease);
-}
-.step:hover .node {
-  background: var(--sky-deep);
-  transform: scale(1.2);
-}
 .num {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--orange);
+  font-size: clamp(88px, 12vw, 180px);
+  font-weight: 750;
+  line-height: 0.85;
+  letter-spacing: -0.07em;
+  color: var(--sky-200);
   font-variant-numeric: tabular-nums;
 }
-.step h3 {
-  margin: 10px 0 12px;
-  font-size: clamp(24px, 2.3vw, 32px);
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 1.1;
+.card:nth-child(4) .num {
+  color: var(--orange);
 }
-.step p {
-  margin: 0;
-  max-width: 240px;
-  font-size: 15px;
+.step {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.copy h3 {
+  margin: 0 0 12px;
+  font-size: clamp(30px, 3.2vw, 46px);
+  font-weight: 750;
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+}
+.text {
+  max-width: 440px;
+  margin: 0 0 24px;
+  font-size: clamp(15px, 1.2vw, 17px);
   line-height: 1.6;
   color: var(--muted);
 }
-
-/* Reveal choreography: the line draws, then nodes and copy follow in order. */
-:global(.js-motion) .flow:global(.reveal) {
-  opacity: 1;
-  transform: none;
+.card:nth-child(4) .text {
+  color: #ffffffb3;
 }
-:global(.js-motion) .connector {
-  transform: scaleX(0);
-  transition: transform 1.4s var(--ease);
+.outputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-:global(.js-motion) .node {
-  transform: scale(0);
-  transition:
-    transform 0.6s var(--ease) calc(200ms + var(--i) * 260ms),
-    background 0.4s var(--ease);
+.outputs li {
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
 }
-:global(.js-motion) .step > :not(.node) {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.8s var(--ease) calc(320ms + var(--i) * 260ms),
-    transform 0.8s var(--ease) calc(320ms + var(--i) * 260ms);
-}
-:global(.js-motion) .flow:global(.visible) .connector {
-  transform: none;
-}
-:global(.js-motion) .flow:global(.visible) .node {
-  transform: none;
-}
-:global(.js-motion) .flow:global(.visible) .step:hover .node {
-  transform: scale(1.2);
-  transition-delay: 0s;
-}
-:global(.js-motion) .flow:global(.visible) .step > :not(.node) {
-  opacity: 1;
-  transform: none;
+.card:nth-child(4) .outputs li {
+  border-color: #ffffff2e;
+  background: #ffffff14;
+  color: #fff;
 }
 
-@media (max-width: 900px) {
-  .steps {
-    grid-template-columns: 1fr;
-    gap: 44px;
-    padding-left: 44px;
+@media (max-width: 760px) {
+  .stack {
+    --pin: 72px;
   }
-  .connector {
-    top: 8px;
-    bottom: 0;
-    left: 8px;
-    right: auto;
-    width: 1.5px;
-    height: auto;
-    transform-origin: top;
+  .card {
+    top: calc(var(--pin) + var(--i) * 12px);
   }
-  .connector::after {
-    right: auto;
-    top: auto;
-    bottom: -1px;
-    left: -4px;
-    border: 4.75px solid transparent;
-    border-top: 8px solid var(--sky-deep);
-    border-bottom: 0;
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 14px;
+    min-height: 0;
+    border-radius: 22px;
   }
-  :global(.js-motion) .connector {
-    transform: scaleY(0);
-  }
-  .step {
-    padding-top: 0;
-  }
-  .node {
-    left: -44px;
-  }
-  .step p {
-    max-width: 420px;
+  .num {
+    font-size: 64px;
   }
 }
