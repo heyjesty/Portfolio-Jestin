@@ -9,11 +9,11 @@ const toolkit = [
   "Figma",
   "Adobe XD",
   "Photoshop",
-  "Canva",
   "HTML",
   "CSS",
   "JavaScript",
   "React",
+  "Next.js",
   "Tailwind CSS",
 ];
 
