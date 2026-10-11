@@ -5,97 +5,140 @@
 .head {
   padding-top: clamp(72px, 8vw, 110px);
   border-top: 1px solid var(--line);
-  margin-bottom: clamp(48px, 5vw, 72px);
+  margin-bottom: clamp(40px, 5vw, 64px);
 }
 
-.panels {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 32px;
+/* Word cloud: every skill as a big pale word, split by slashes; the one under
+   the pointer (or keyboard focus) turns dark. */
+.cloud {
+  position: relative;
 }
-
-.panelHead {
+.cloud ul {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 0 8px;
-  padding: 0 12px 14px;
-  border-bottom: 1px solid var(--line);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0;
-}
-.panelHead span {
-  font-size: 10px;
-  color: var(--muted);
-}
-.panelHead small {
-  margin-left: auto;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--sky-deep);
-  font-variant-numeric: tabular-nums;
-}
-
-.panel ul {
+  flex-wrap: wrap;
+  align-items: baseline;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.panel li {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 12px;
-  border-radius: 8px;
-  font-size: clamp(18px, 1.6vw, 22px);
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  transition:
-    background 0.35s var(--ease),
-    color 0.35s var(--ease),
-    transform 0.45s var(--ease);
+.cloud li {
+  display: inline-flex;
+  align-items: baseline;
 }
-.panel li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 10px;
-  bottom: 10px;
-  width: 2px;
-  border-radius: 2px;
-  background: var(--sky-deep);
-  transform: scaleY(0);
-  transition: transform 0.45s var(--ease);
+.cloud li::after {
+  content: "/";
+  margin: 0 clamp(14px, 1.6vw, 26px);
+  font-size: clamp(24px, 3vw, 44px);
+  font-weight: 300;
+  color: #10293d1f;
 }
-.panel li:hover {
-  background: var(--sky-50);
-  color: var(--sky-deep);
-  transform: translateX(4px);
+.cloud button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: clamp(24px, 3vw, 44px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.045em;
+  color: #10293d33;
+  cursor: default;
+  transition: color 0.35s var(--ease);
 }
-.panel li:hover::before {
-  transform: scaleY(1);
+.cloud .current {
+  color: var(--text);
 }
-.glyph {
-  display: inline-grid;
-  place-items: center;
-  min-width: 26px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0;
-  color: var(--sky-deep);
-  opacity: 0.7;
+.cloud button:focus-visible {
+  outline-offset: 4px;
 }
 
-@media (max-width: 900px) {
-  .panels {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 40px 24px;
+/* Pointer follower: an orange dot, the site's accent colour. */
+.dot {
+  position: absolute;
+  z-index: 1;
+  top: -14px;
+  left: -14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--orange);
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  transition:
+    transform 0.18s var(--ease),
+    opacity 0.3s var(--ease);
+}
+
+/* Detail card for the active skill. */
+.detail {
+  max-width: 560px;
+  margin-top: clamp(36px, 4vw, 56px);
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 30px #10293d0d;
+}
+.detailInner {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  animation: detailIn 0.45s var(--ease) both;
+}
+.tile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.03em;
+}
+.detailHead {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 2px 0 8px;
+}
+.detailHead b {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.detailHead span {
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--sky-50);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+.detailText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+@keyframes detailIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
   }
 }
-@media (max-width: 600px) {
-  .panels {
-    grid-template-columns: 1fr;
+
+@media (max-width: 640px) {
+  .detail {
+    padding: 18px;
+  }
+  .tile {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    font-size: 16px;
   }
 }

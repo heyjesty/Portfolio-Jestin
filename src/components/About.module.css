@@ -26,7 +26,7 @@
 }
 /* A smaller title than other sections keeps this block compact. */
 .copy :global(.title) {
-  font-size: clamp(34px, 3.8vw, 56px);
+  font-size: clamp(40px, 4.8vw, 70px);
 }
 :global(.title) + .card {
   margin-top: 28px;
@@ -225,7 +225,6 @@
 }
 .icons > span:nth-child(2) { animation-delay: -1.5s; }
 .icons > span:nth-child(3) { animation-delay: -3s; }
-.icons > span:nth-child(4) { animation-delay: -4.5s; }
 .figma {
   background: #1e1e1e;
 }
@@ -246,87 +245,6 @@
 .ps {
   background: #001e36;
   color: #31a8ff;
-}
-.canva {
-  background: linear-gradient(135deg, #00c4cc, #7d2ae8);
-  color: #fff;
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-size: 22px;
-}
-
-/* Background & vision: big role words left, the story and a three-step row right. */
-.vision {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  gap: 40px 7%;
-  margin-top: clamp(40px, 6vw, 88px);
-  padding-top: clamp(40px, 5vw, 64px);
-  border-top: 1px solid var(--line);
-}
-.eyebrow {
-  margin: 0 0 22px;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.roles {
-  display: grid;
-  margin: 0;
-  font-size: clamp(40px, 4.8vw, 72px);
-  font-weight: 750;
-  line-height: 1.02;
-  letter-spacing: -0.055em;
-  text-transform: uppercase;
-  color: var(--text);
-}
-.story > p {
-  position: relative;
-  margin: 0 0 24px;
-  font-size: clamp(17px, 1.45vw, 21px);
-  line-height: 1.65;
-  letter-spacing: -0.01em;
-  color: var(--muted);
-}
-.story > p:first-child {
-  color: var(--text);
-}
-/* Green "live" dot at the start of the story, as in the hero. */
-.story > p i {
-  position: absolute;
-  top: -6px;
-  left: -8px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--green);
-  animation: pulse-ring 2s ease-in-out infinite;
-}
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px 28px;
-  margin: 36px 0 0;
-  padding: 26px 0 0;
-  border-top: 1px solid var(--line);
-  list-style: none;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-.steps b {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 13px;
-  color: var(--text);
-}
-.steps span {
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--muted);
 }
 
 /* Thin closing rule: ".design ——— 2026". */
@@ -371,9 +289,6 @@
   .card {
     max-width: none;
   }
-  .vision {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 @media (max-width: 520px) {
   .toolkit {
@@ -391,8 +306,5 @@
   .services {
     grid-template-columns: repeat(2, max-content);
     gap: 12px 18px;
-  }
-  .steps {
-    grid-template-columns: minmax(0, 1fr);
   }
 }

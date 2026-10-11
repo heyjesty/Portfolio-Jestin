@@ -8,12 +8,6 @@ import styles from "./About.module.css";
 // Handwritten note beside the toolkit icons.
 const hand = Caveat({ weight: "600", subsets: ["latin"] });
 
-const steps = [
-  { name: "Research", detail: "User flows & usability testing" },
-  { name: "Design", detail: "Figma systems & prototypes" },
-  { name: "Code", detail: "Python, React & CSS" },
-];
-
 const services = [
   "UI/UX Design",
   "Web Design",
@@ -120,55 +114,12 @@ export default function About() {
             </span>
             <span className={styles.xd}>Xd</span>
             <span className={styles.ps}>Ps</span>
-            <span className={styles.canva}>C</span>
           </span>
         </span>
         <figcaption className="sr-only">
-          Jestin&apos;s toolkit: Figma, Adobe XD, Photoshop and Canva.
+          Jestin&apos;s toolkit: Figma, Adobe XD and Photoshop.
         </figcaption>
       </figure>
-
-      <div className={styles.vision}>
-        <div className="reveal">
-          <p className={styles.eyebrow}>{"// Background & vision"}</p>
-          <p className={styles.roles}>
-            {["Designer", "Builder", "Problem solver"].map((w) => (
-              <span key={w}>
-                {w}
-                <span className="dot">.</span>
-              </span>
-            ))}
-          </p>
-        </div>
-        <div
-          className={`${styles.story} reveal`}
-          style={{ "--d": "150ms" } as CSSProperties}
-        >
-          <p>
-            <i aria-hidden="true" />
-            My journey began as a Python developer, building an AI sales
-            chatbot, a music playlist system and an Odoo library manager, and
-            learning how software works under the hood. Along the way I realised
-            that good code only matters if people enjoy using what it powers.
-          </p>
-          <p>
-            That pulled me into UI/UX. Today I&apos;m just as excited about
-            designing as developing: shaping flows and systems in Figma, then
-            bringing them to life as responsive front-ends that look considered
-            and feel effortless.
-          </p>
-          <ol className={styles.steps}>
-            {steps.map((step, i) => (
-              <li key={step.name}>
-                <b>
-                  {String(i + 1).padStart(2, "0")}. {step.name}
-                </b>
-                <span>{step.detail}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
 
       <p className={styles.rule} aria-hidden="true">
         <span>.design</span>
