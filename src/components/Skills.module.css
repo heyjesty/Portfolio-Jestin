@@ -3,7 +3,7 @@
 }
 
 .head {
-  padding-top: clamp(72px, 8vw, 110px);
+  padding-top: calc(var(--section-gap) / 2);
   border-top: 1px solid var(--line);
   margin-bottom: clamp(40px, 5vw, 64px);
 }

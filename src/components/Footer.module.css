@@ -1,54 +1,105 @@
+/* Slim closing bar on the sky: brand, links, copyright and back to top. */
+/* Two rows: brand and links on top, copyright and back to top beneath. */
 .footer {
-  overflow: hidden;
-  padding: 8px var(--gutter) 0;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px 32px;
+  padding: 26px var(--gutter) 30px;
+  border-top: 1px solid #10293d24;
   background: var(--sky-deep);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12.5px;
   color: var(--text);
 }
-
-.row {
+.footer p {
+  margin: 0;
+}
+.brand {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px 32px;
   flex-wrap: wrap;
-  font-size: 13px;
-  font-weight: 500;
+  gap: 8px 14px;
+}
+.brand a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.mark {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  letter-spacing: -0.04em;
+}
+.mark i {
+  width: 5px;
+  height: 5px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+.roles {
+  opacity: 0.75;
+}
+.roles::before {
+  content: "·";
+  margin-right: 14px;
 }
 .links {
   display: flex;
-  gap: 28px;
-  font-size: 13px;
+  flex-wrap: wrap;
+  gap: 8px 22px;
 }
-.links a {
-  padding: 0;
+.links a,
+.top {
+  opacity: 0.8;
+  transition: opacity 0.3s var(--ease);
+}
+.links a:hover,
+.top:hover {
+  opacity: 1;
+}
+.end {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.top {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 1;
+}
+.top span {
+  display: inline-block;
+  transition: transform 0.3s var(--ease);
+}
+.top:hover span {
+  transform: translateY(-3px);
 }
 
-/* Oversized white wordmark, cropped by the bottom edge like the hero's scale. */
-.wordmark {
-  display: block;
-  margin: clamp(28px, 4vw, 48px) 0 -0.1em;
-  color: #fff;
-  font-size: clamp(56px, 13.4vw, 200px);
-  font-weight: 750;
-  line-height: 1;
-  letter-spacing: -0.07em;
-  white-space: nowrap;
-  transition: letter-spacing 0.8s var(--ease);
+.links {
+  justify-content: flex-end;
 }
-.wordmark:hover {
-  letter-spacing: -0.06em;
-}
-.wordmark span {
-  color: var(--orange);
+.end {
+  grid-column: 1 / -1;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid #10293d1f;
 }
 
-@media (max-width: 600px) {
-  .row {
-    justify-content: center;
-    text-align: center;
+@media (max-width: 900px) {
+  .footer {
+    grid-template-columns: minmax(0, 1fr);
   }
-  .row > span {
-    order: 3;
-    width: 100%;
+  .links {
+    justify-content: flex-start;
   }
 }

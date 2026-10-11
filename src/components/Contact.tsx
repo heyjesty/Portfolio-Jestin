@@ -1,18 +1,12 @@
-import Image from "next/image";
 import type { CSSProperties } from "react";
-import { BEHANCE, GITHUB } from "@/data/projects";
-import { Arrow, Lines, SectionLabel } from "./Typography";
+import { Arrow, SectionLabel } from "./Typography";
+import { CONTACT, socials } from "./contactLinks";
 import styles from "./Contact.module.css";
 
-const EMAIL = "jestinjohnson1@gmail.com";
-
-const socials = [
-  { label: "GitHub", href: GITHUB },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/heyjesty/" },
-  { label: "Behance", href: BEHANCE },
-  { label: "Instagram", href: "https://www.instagram.com/moodygrammer/" },
-  { label: "WhatsApp", href: "https://wa.me/918590569016" },
-];
+// The three networks shown as pills next to the main button.
+const pills = socials.filter((s) =>
+  ["LinkedIn", "Behance", "Instagram"].includes(s.label),
+);
 
 export default function Contact() {
   return (
@@ -22,62 +16,63 @@ export default function Contact() {
       aria-labelledby="contact-title"
     >
       <SectionLabel index="06">Let&apos;s connect</SectionLabel>
-      <h2
-        id="contact-title"
-        className={`title reveal reveal-text ${styles.title}`}
-      >
-        <Lines lines={["Good things start", "with a conversation"]} />
-      </h2>
-
-      {/* A Figma-style comment: avatar pin plus message bubble. */}
-      <div
-        className={`${styles.comment} reveal`}
-        style={{ "--d": "250ms" } as CSSProperties}
-      >
-        <span className={styles.pin}>
-          <Image
-            src="/assets/jestin-headshot.png"
-            alt=""
-            width={44}
-            height={44}
-          />
+      <h2 id="contact-title" className={`${styles.title} reveal`}>
+        <span>Have an idea?</span>
+        <span className={styles.soft}>
+          Let&apos;s make it happen<span className="dot">.</span>
         </span>
-        <div className={styles.bubble}>
-          <p className={styles.author}>
-            Jestin <span>just now</span>
-          </p>
-          <p>Made it this far? We should probably talk.</p>
-        </div>
-      </div>
+      </h2>
 
       <div
         className={`${styles.actions} reveal`}
-        style={{ "--d": "400ms" } as CSSProperties}
+        style={{ "--d": "150ms" } as CSSProperties}
       >
-        <a className={styles.hello} href={`mailto:${EMAIL}`}>
-          <span aria-hidden="true">→</span> Say hello
+        <a className={styles.primary} href={`mailto:${CONTACT.email}`}>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            aria-hidden="true"
+          >
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="m3.5 6.5 8.5 6 8.5-6" />
+          </svg>
+          Start a conversation
+          <Arrow />
         </a>
-        <a className={`ulink ${styles.email}`} href={`mailto:${EMAIL}`}>
-          {EMAIL}
-        </a>
+        {pills.map((s) => (
+          <a
+            key={s.label}
+            className={styles.pill}
+            href={s.href}
+            target="_blank"
+            rel="noopener"
+          >
+            <span aria-hidden="true">{s.mark}</span>
+            {s.label}
+          </a>
+        ))}
       </div>
 
-      <div className={styles.bottom}>
-        <ul className={styles.socials}>
-          {socials.map((s) => (
-            <li key={s.label}>
-              <a href={s.href} target="_blank" rel="noopener">
-                {s.label}{" "}
-                <span>
-                  <Arrow />
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <a className={styles.phone} href="tel:+918590569016">
-          +91 8590569016
-        </a>
+      <div
+        className={`${styles.info} reveal`}
+        style={{ "--d": "250ms" } as CSSProperties}
+      >
+        <p className={styles.available}>
+          <i aria-hidden="true" />
+          Available for freelance &amp; full-time opportunities
+        </p>
+        <p className={styles.reach}>
+          <span>
+            Email: <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+          </span>
+          <span>
+            Phone: <a href={CONTACT.phoneHref}>{CONTACT.phone}</a>
+          </span>
+        </p>
       </div>
     </section>
   );

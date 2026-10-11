@@ -122,7 +122,9 @@
   text-transform: uppercase;
   color: var(--muted);
 }
+/* The last row has no divider, so it needs no space beneath it either. */
 .education .row {
+  padding-bottom: 0;
   border-bottom: 0;
 }
 .education .row::before {

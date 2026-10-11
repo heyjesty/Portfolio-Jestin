@@ -2,7 +2,7 @@
 .work {
   position: relative;
   overflow: hidden;
-  padding: clamp(110px, 12vw, 160px) 0 clamp(70px, 8vw, 110px);
+  padding: var(--section-gap) 0 calc(var(--section-gap) / 2);
   background: linear-gradient(
     180deg,
     var(--sky-deep) 0,
@@ -378,7 +378,8 @@
 }
 .links {
   display: flex;
-  gap: 28px;
+  flex-wrap: wrap;
+  gap: 16px 28px;
 }
 .links a {
   display: inline-flex;
@@ -390,6 +391,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: var(--text);
 }
 .links a :global(.arrow) {

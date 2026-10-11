@@ -6,8 +6,6 @@
      top meets the title and its bottom meets the last card. */
   align-items: stretch;
   gap: 0 7%;
-  /* The work section above already ends with generous space. */
-  padding-top: clamp(32px, 4vw, 56px);
 }
 
 .head {
@@ -253,7 +251,7 @@
   display: flex;
   align-items: center;
   gap: 18px;
-  margin: 24px 0 0;
+  margin: 56px 0 0;
   font-size: 12px;
   color: var(--muted);
 }
@@ -273,7 +271,13 @@
   }
 }
 
-@media (max-width: 860px) {
+/* Narrower two-column layouts: two services per row so they fit the column. */
+@media (max-width: 1000px) {
+  .services {
+    grid-template-columns: repeat(2, max-content);
+  }
+}
+@media (max-width: 700px) {
   .about {
     grid-template-columns: minmax(0, 1fr);
   }
