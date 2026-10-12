@@ -15,7 +15,7 @@
 .title {
   display: grid;
   margin: 0;
-  font-size: clamp(44px, 7.6vw, 124px);
+  font-size: clamp(36px, 5.6vw, 84px);
   font-weight: 750;
   line-height: 0.95;
   letter-spacing: -0.06em;
@@ -39,7 +39,7 @@
   align-items: center;
   gap: 12px;
   border-radius: 999px;
-  font-size: clamp(16px, 1.3vw, 19px);
+  font-size: clamp(15px, 1.1vw, 16px);
   font-weight: 600;
   transition:
     transform 0.3s var(--ease),
@@ -47,7 +47,7 @@
     background 0.3s var(--ease);
 }
 .primary {
-  padding: 18px 28px;
+  padding: 15px 24px;
   background: #fff;
   color: var(--text);
   box-shadow: 0 12px 30px #10293d24;
@@ -64,7 +64,7 @@
   transform: translate(2px, -2px);
 }
 .pill {
-  padding: 12px 22px 12px 12px;
+  padding: 9px 18px 9px 9px;
   border: 1px solid #ffffff99;
   background: #ffffff59;
   color: var(--text);
@@ -74,8 +74,8 @@
 .pill span {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: #fff;
   font-size: 12px;
@@ -97,7 +97,7 @@
   padding-top: 24px;
   border-top: 1px solid #10293d24;
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text);
