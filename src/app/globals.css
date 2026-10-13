@@ -281,49 +281,18 @@ header nav a span {
   flex-direction: column;
   gap: 20px;
   pointer-events: none;
-  animation: loader-exit 0.5s ease 1.3s forwards;
-}
-.page-loader strong {
-  font-size: 20px;
-  letter-spacing: -0.7px;
-  color: var(--ink);
+  animation: loader-exit 0.5s ease 3.5s forwards;
 }
 .page-loader > span {
   font-size: 11px;
   color: #777;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 .loader-mark {
-  display: grid;
-  grid-template-columns: repeat(2, 23px);
-  grid-template-rows: repeat(3, 23px);
-}
-.loader-mark i {
-  background: #f24e1e;
-  animation: mark-in 0.7s ease both;
-}
-.loader-mark i:nth-child(1) {
-  border-radius: 50% 0 0 50%;
-}
-.loader-mark i:nth-child(2) {
-  background: #ff7262;
-  border-radius: 0 50% 50% 0;
-  animation-delay: 0.08s;
-}
-.loader-mark i:nth-child(3) {
-  background: #a259ff;
-  border-radius: 50% 0 0 50%;
-  animation-delay: 0.16s;
-}
-.loader-mark i:nth-child(4) {
-  background: #1abcfe;
-  border-radius: 50%;
-  animation-delay: 0.24s;
-}
-.loader-mark i:nth-child(5) {
-  background: #0acf83;
-  border-radius: 50% 0 50% 50%;
-  animation-delay: 0.32s;
+  display: block;
+  width: auto;
+  height: 120px;
 }
 .loader-track {
   width: 135px;
@@ -338,22 +307,12 @@ header nav a span {
   height: 100%;
   background: #7c5ce7;
   transform-origin: left;
-  animation: load-progress 1.3s ease both;
+  animation: load-progress 3.4s ease both;
 }
 @keyframes loader-exit {
   to {
     opacity: 0;
     visibility: hidden;
-  }
-}
-@keyframes mark-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
 @keyframes load-progress {
