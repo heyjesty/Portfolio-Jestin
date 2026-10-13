@@ -115,10 +115,11 @@
 .portrait {
   position: absolute;
   z-index: 1;
-  left: 0;
-  right: 0;
+  /* Centred by offset, not auto margins, so it stays centred even when the
+     square is wider than a phone screen. */
+  left: 50%;
   bottom: 0;
-  margin: 0 auto;
+  translate: -50% 0;
   height: min(67%, 740px);
   aspect-ratio: 1;
   mix-blend-mode: multiply;
