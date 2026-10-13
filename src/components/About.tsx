@@ -61,7 +61,7 @@ export default function About() {
           <ol className={styles.services}>
             {services.map((s, i) => (
               <li key={s}>
-                <b aria-hidden="true">{i + 1}</b>
+                <b aria-hidden="true">{String(i + 1).padStart(2, "0")}</b>
                 <span>{s}</span>
               </li>
             ))}

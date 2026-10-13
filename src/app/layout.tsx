@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Jestin G Johnson" }],
 };
 
-// Runs before first paint: enables the intro loader and scroll reveals only
-// when motion is allowed, so content never flashes in and out on hydration.
-const motionScript = `(function(){var d=document.documentElement;if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;d.classList.add("intro-enabled");if("IntersectionObserver" in window)d.classList.add("js-motion")})()`;
+// Runs before first paint: enables the intro loader and scroll reveals (softened
+// in CSS under reduced motion), so content never flashes in and out on hydration.
+const motionScript = `(function(){var d=document.documentElement;d.classList.add("intro-enabled");if("IntersectionObserver" in window)d.classList.add("js-motion")})()`;
 
 export default function RootLayout({
   children,

@@ -67,7 +67,7 @@
   transform: rotate(135deg);
 }
 
-/* Services: big numerals, each with a tinted pill label (3 + 2, like the reference). */
+/* Services: small numerals sized to match their tinted pill labels (3 + 2). */
 .services {
   display: grid;
   grid-template-columns: repeat(3, max-content);
@@ -79,17 +79,17 @@
 .services li {
   display: flex;
   align-items: center;
+  gap: 6px;
   flex: none;
 }
 .services b {
-  font-size: clamp(28px, 2.4vw, 34px);
-  font-weight: 750;
+  font-size: 11.5px;
+  font-weight: 650;
   line-height: 1;
-  letter-spacing: -0.06em;
-  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
 }
 .services span {
-  margin-left: 3px;
   padding: 4px 9px;
   border-radius: 6px;
   background: var(--sky-200);
@@ -97,7 +97,6 @@
   font-weight: 600;
   white-space: nowrap;
   color: var(--text);
-  transform: translateY(4px);
   transition: background 0.3s var(--ease);
 }
 .services li:hover span {
@@ -146,6 +145,13 @@
 .photo:hover .portrait img {
   filter: grayscale(0.2) brightness(1.04) contrast(1.06);
   transform: scale(1.03);
+}
+/* No hover on touch screens: bring the colour in once the photo scrolls into view. */
+@media (hover: none) {
+  .photo:global(.visible) .portrait img {
+    filter: grayscale(0.2) brightness(1.04) contrast(1.06);
+    transition-delay: 0.6s;
+  }
 }
 .selection {
   position: absolute;

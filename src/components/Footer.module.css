@@ -1,65 +1,50 @@
-/* Slim closing bar on the sky: brand, links, copyright and back to top. */
-/* Two rows: brand and links on top, copyright and back to top beneath. */
+/* Slim closing bar on the sky: brand and links on top, copyright and back to top beneath. */
 .footer {
   display: grid;
   grid-template-columns: auto auto;
   justify-content: space-between;
   align-items: center;
-  gap: 18px 32px;
-  padding: 26px var(--gutter) 30px;
+  gap: 20px 32px;
+  padding: 28px var(--gutter) 28px;
   border-top: 1px solid #10293d24;
   background: var(--sky-deep);
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 12.5px;
+  font-size: 14px;
   color: var(--text);
 }
 .footer p {
   margin: 0;
 }
 .brand {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 14px;
-}
-.brand a {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-weight: 650;
+  letter-spacing: -0.01em;
 }
 .mark {
   display: inline-flex;
   align-items: flex-end;
   gap: 2px;
-  font-family: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 750;
   letter-spacing: -0.04em;
 }
 .mark i {
   width: 5px;
   height: 5px;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   border-radius: 50%;
   background: var(--orange);
-}
-.roles {
-  opacity: 0.75;
-}
-.roles::before {
-  content: "·";
-  margin-right: 14px;
 }
 .links {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 22px;
+  justify-content: flex-end;
+  gap: 8px 28px;
 }
 .links a,
 .top {
-  opacity: 0.8;
+  opacity: 0.75;
   transition: opacity 0.3s var(--ease);
 }
 .links a:hover,
@@ -67,15 +52,20 @@
   opacity: 1;
 }
 .end {
+  grid-column: 1 / -1;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  gap: 24px;
+  gap: 10px 24px;
+  padding-top: 20px;
+  border-top: 1px solid #10293d1f;
+  font-size: 12.5px;
+  color: var(--muted);
 }
 .top {
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  opacity: 1;
+  white-space: nowrap;
+  color: var(--text);
 }
 .top span {
   display: inline-block;
@@ -85,21 +75,20 @@
   transform: translateY(-3px);
 }
 
-.links {
-  justify-content: flex-end;
-}
-.end {
-  grid-column: 1 / -1;
-  justify-content: space-between;
-  padding-top: 18px;
-  border-top: 1px solid #10293d1f;
-}
-
-@media (max-width: 900px) {
+/* Phones: everything stacks and centres. */
+@media (max-width: 600px) {
   .footer {
     grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 18px;
+    text-align: center;
   }
   .links {
-    justify-content: flex-start;
+    justify-content: center;
+    gap: 8px 22px;
+  }
+  .end {
+    width: 100%;
+    flex-direction: column;
   }
 }

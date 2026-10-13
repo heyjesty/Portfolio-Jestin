@@ -131,9 +131,24 @@
 }
 
 @media (max-width: 600px) {
+  /* Full-width button, then the three pills as an even row of tiles. */
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
   .primary {
-    width: 100%;
+    grid-column: 1 / -1;
     justify-content: center;
+  }
+  .pill {
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 6px;
+    border-radius: 20px;
+    font-size: 13px;
+    text-align: center;
   }
   .info {
     font-size: 11px;

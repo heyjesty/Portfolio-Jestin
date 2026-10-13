@@ -350,6 +350,8 @@ header nav a span {
   }
 }
 
+/* Reduced motion (often switched on by phone battery savers): keep the intro
+   loader and soft fades, but drop sliding, looping and parallax movement. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -358,9 +360,26 @@ header nav a span {
   *::before,
   *::after {
     animation: none !important;
-    transition: none !important;
   }
   .intro-enabled .page-loader {
-    display: none;
+    animation: loader-exit 0.5s ease 3.5s forwards !important;
+  }
+  .page-loader .loader-track i {
+    animation: load-progress 3.4s ease both !important;
+  }
+  .js-motion .reveal {
+    transform: none;
+    transition: opacity 0.9s var(--ease);
+    transition-delay: var(--d, 0ms);
+  }
+  .js-motion .reveal-text {
+    opacity: 0;
+  }
+  .js-motion .reveal-text.visible {
+    opacity: 1;
+  }
+  .js-motion .reveal-text .line > span {
+    transform: none;
+    transition: none;
   }
 }
