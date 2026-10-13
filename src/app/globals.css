@@ -30,7 +30,7 @@ body {
   margin: 0;
   color: var(--text);
   background: var(--paper);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 a {
@@ -280,6 +280,8 @@ header nav a span {
   justify-content: center;
   flex-direction: column;
   gap: 20px;
+  padding: 0 16px;
+  text-align: center;
   pointer-events: none;
   animation: loader-exit 0.5s ease 3.5s forwards;
 }
@@ -308,6 +310,21 @@ header nav a span {
   background: #7c5ce7;
   transform-origin: left;
   animation: load-progress 3.4s ease both;
+}
+@media (max-width: 600px) {
+  .intro-enabled .page-loader {
+    gap: 16px;
+  }
+  .loader-mark {
+    height: 96px;
+  }
+  .page-loader > span {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+  }
+  .loader-track {
+    width: 110px;
+  }
 }
 @keyframes loader-exit {
   to {
