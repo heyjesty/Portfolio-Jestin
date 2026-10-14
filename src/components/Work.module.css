@@ -136,8 +136,13 @@
   animation: spin 70s linear infinite;
 }
 .stage:hover .spinner,
-.stage:focus-within .spinner {
+.stage:focus-within .spinner,
+.stageHold .spinner {
   animation-play-state: paused;
+}
+/* Returning from the slider: the panels fly in themselves, so skip the fade. */
+.stageHold {
+  animation: none;
 }
 .panel {
   position: absolute;
@@ -199,9 +204,7 @@
     transform 0.45s var(--ease);
 }
 .panel a:hover .chip,
-.panel a:focus-visible .chip,
-.tile:hover .chip,
-.tile:focus-visible .chip {
+.panel a:focus-visible .chip {
   opacity: 1;
   transform: none;
 }
@@ -225,29 +228,348 @@
   font-size: 11px;
 }
 
-/* Spread grid: where the ring lands after "View all projects". */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 1.6vw, 22px);
-  margin: clamp(40px, 5vw, 64px) 0 0;
-  padding: 0 var(--gutter);
+/* Slider: where the ring pops open after "View all projects". The active
+   project sits centred and large; neighbours fan out behind it, smaller,
+   turned slightly away and dimmer. --o is a slide's signed distance from the
+   active one and --a its absolute value. */
+.slider {
+  --sw: min(540px, 46vw);
+  --step: 0.72;
+  /* One soft curve for every slider motion, so steps glide rather than snap. */
+  --glide: cubic-bezier(0.22, 1, 0.36, 1);
+  margin-top: clamp(40px, 5vw, 64px);
+}
+.track {
+  position: relative;
+  height: calc(var(--sw) * 10 / 16);
+  margin: 0;
+  padding: 0;
   list-style: none;
+  perspective: 1600px;
+  touch-action: pan-y;
+  margin-top: 26px;
+  user-select: none;
+  -webkit-user-select: none;
 }
-.gridClosing li {
-  opacity: 0;
-  transform: translateY(16px) scale(0.98);
+/* The hero's sky, pooled softly beneath the centre slide. */
+.track::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -18%;
+  width: calc(var(--sw) * 1.6);
+  height: 70%;
+  translate: -50% 0;
+  background: radial-gradient(closest-side, var(--sky-200), transparent);
+  opacity: 0.8;
+  pointer-events: none;
+}
+.slide {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--sw);
+  aspect-ratio: 16 / 10;
+  margin-left: calc(var(--sw) / -2);
+  z-index: calc(10 - var(--a));
+  opacity: clamp(0, 1.6 - var(--a) * 0.5, 1);
+  transform: translateX(calc(var(--o) * var(--sw) * var(--step)))
+    scale(calc(1 - var(--a) * 0.2)) rotateY(calc(var(--o) * -10deg));
   transition:
-    opacity 0.35s var(--ease),
-    transform 0.4s var(--ease);
+    transform 0.9s var(--glide),
+    opacity 0.9s var(--glide);
+  will-change: transform, opacity;
 }
-/* Shown in place of tiles when a category has no work yet. */
+/* Side slides dim under a tint layer: fading its opacity is far cheaper
+   than animating a brightness filter over the image every frame. */
+.slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 16px;
+  background: #10293d;
+  opacity: calc(var(--a) * 0.16);
+  pointer-events: none;
+  transition: opacity 0.9s var(--glide);
+}
+.shot {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--sky-100);
+  box-shadow: 0 18px 40px #10293d1f;
+  outline: none;
+  -webkit-user-drag: none;
+}
+.shot img {
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.8s var(--ease);
+}
+.slide[data-active="true"] .shot:hover img,
+.slide[data-active="true"] .shot:focus-visible img {
+  transform: scale(1.03);
+}
+.slide[data-active="false"] .shot {
+  cursor: pointer;
+}
+.shot:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 4px;
+}
+/* Figma selection on the centre slide: sky-blue outline, corner handles and
+   the frame's name above it, fading in once the slide settles. */
+.select {
+  position: absolute;
+  inset: -7px;
+  z-index: 3;
+  border: 1.5px solid var(--sky-deep);
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s var(--glide);
+}
+.slide[data-active="true"] .select {
+  opacity: 1;
+  transition: opacity 0.5s var(--glide) 0.45s;
+}
+/* Hidden while the slider morphs in from the ring; fades in once it lands. */
+.sliderMorph .slide .select {
+  opacity: 0;
+  transition: none;
+}
+.select i {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -5px 0 0 -5px;
+  border: 1.5px solid var(--sky-deep);
+  background: #fff;
+}
+.select i:nth-of-type(1) { top: 0; left: 0; }
+.select i:nth-of-type(2) { top: 0; left: 100%; }
+.select i:nth-of-type(3) { top: 100%; left: 100%; }
+.select i:nth-of-type(4) { top: 100%; left: 0; }
+.select b {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: -1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  overflow: hidden;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--sky-deep);
+}
+.status {
+  position: absolute;
+  z-index: 1;
+  top: 14px;
+  left: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 4px 14px #10293d1f;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+/* Write-up for the centred project; re-keyed per slide so it rises in. */
+.details {
+  max-width: 560px;
+  margin: clamp(24px, 2.6vw, 34px) auto 0;
+  padding: 0 var(--gutter);
+  box-sizing: content-box;
+  text-align: center;
+  animation: detailsIn 0.7s var(--glide) both;
+}
+.details small {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.details h3 {
+  margin: 8px 0 0;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+/* Held to three lines so the controls below don't jump between slides. */
+.details p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  min-height: calc(3 * 1.6em);
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    transform 0.3s var(--ease),
+    background 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+.primary {
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 8px 24px #10293d1f;
+}
+.primary :global(.arrow) {
+  color: var(--orange);
+  transition: transform 0.3s var(--ease);
+}
+.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px #10293d2e;
+}
+.primary:hover :global(.arrow) {
+  transform: translate(2px, -2px);
+}
+.secondary {
+  border: 1px solid #10293d24;
+  background: transparent;
+  color: var(--text);
+}
+.secondary:hover {
+  background: var(--sky-50);
+  transform: translateY(-2px);
+}
+
+/* Controls: arrows either side of the spinning "next project" badge. */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2vw, 26px);
+  margin-top: clamp(22px, 2.4vw, 32px);
+}
+.arrowBtn {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 6px 18px #10293d14;
+  transition:
+    background 0.3s var(--ease),
+    color 0.3s var(--ease),
+    transform 0.3s var(--ease);
+}
+.arrowBtn:hover {
+  background: var(--text);
+  color: #fff;
+  transform: scale(1.06);
+}
+/* Each step glides the badge half a turn; the orange core counter-turns so
+   its arrow always points forward. */
+.spin {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 14px 36px #10293d24;
+  rotate: calc(var(--turns) * 180deg);
+  transition:
+    rotate 0.9s var(--glide),
+    box-shadow 0.3s var(--ease);
+  will-change: rotate;
+}
+.spin:hover {
+  box-shadow: 0 18px 44px #10293d33;
+}
+.spin:focus-visible,
+.arrowBtn:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+.spinText {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 9px;
+  font-weight: 600;
+  fill: var(--text);
+  transform-origin: center;
+  animation: textSpin 16s linear infinite;
+}
+.spinCore {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: #fff;
+  rotate: calc(var(--turns) * -180deg);
+  transition:
+    rotate 0.9s var(--glide),
+    transform 0.3s var(--ease);
+}
+.spin:hover .spinCore {
+  transform: scale(1.08);
+}
+.counter {
+  margin: 14px 0 0;
+  text-align: center;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.counter b {
+  color: var(--text);
+}
+
+/* Shown in place of the slider when a category has no work yet. */
 .empty {
-  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  margin: 0 var(--gutter);
   padding: clamp(56px, 7vw, 96px) 24px;
   border: 1.5px dashed #10293d1f;
   border-radius: 16px;
@@ -268,28 +590,19 @@
   font-size: 14px;
   color: var(--muted);
 }
-.tile {
-  position: relative;
-  display: block;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  border-radius: 10px;
-  background: var(--sky-100);
-  box-shadow: 0 10px 30px #10293d14;
-  outline: none;
+
+@keyframes detailsIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
 }
-.tile img {
-  object-fit: cover;
-  transition: transform 0.8s var(--ease);
+@keyframes textSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }
-.tile:hover img,
-.tile:focus-visible img {
-  transform: scale(1.04);
-}
-.tile:focus-visible {
-  outline: 2px solid var(--orange);
-  outline-offset: 3px;
-}
+
 .cover {
   position: absolute;
   inset: 0;
@@ -460,15 +773,8 @@
 }
 
 @media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-/* No hover on touch screens: keep the grid's name chips visible. */
-@media (hover: none) {
-  .tile .chip {
-    opacity: 1;
-    transform: none;
+  .slider {
+    --sw: 56vw;
   }
 }
 @media (max-width: 640px) {
@@ -478,17 +784,39 @@
     overflow-x: auto;
     scrollbar-width: none;
     padding-bottom: 6px;
+    padding-right: 28px;
+    /* Fade the right edge so it reads as a row that scrolls. */
+    mask-image: linear-gradient(90deg, #000 82%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent);
   }
   .tabs button {
     font-size: 13px;
   }
-  .grid {
-    grid-template-columns: minmax(0, 1fr);
+  /* Phones: a wider centre slide, with neighbours just peeking in. */
+  .slider {
+    --sw: 72vw;
+    --step: 0.84;
   }
+  .details p {
+    font-size: 13.5px;
+  }
+  .spin {
+    width: 78px;
+    height: 78px;
+  }
+  .spinCore {
+    width: 38px;
+    height: 38px;
+  }
+  .arrowBtn {
+    width: 38px;
+    height: 38px;
+  }
+  /* Narrower panels so the whole ring fits a phone's width. */
   .stage {
-    --w: 100px;
-    height: 380px;
-    perspective: 1100px;
+    --w: clamp(64px, 20vw, 84px);
+    height: 340px;
+    perspective: 1000px;
   }
   .wordTop {
     top: 12%;
